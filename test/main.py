@@ -5,12 +5,23 @@ import time
 import os
 from sqlalchemy import create_engine, Column, Float, Integer, MetaData, Table
 from sqlalchemy.orm import registry, sessionmaker
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Inicializace registru mapperu pro SQLAlchemy
 mapper_registry = registry()
 
+db_username = os.getenv('DB_USERNAME')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
+db_port = os.getenv('DB_PORT')
+db_name = os.getenv('DB_NAME')
+
+db_url = f'mysql+pymysql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}'
+
 # Připojení k databázi pomocí SQLAlchemy engine
-engine = create_engine('mysql+pymysql://root:@0.tcp.eu.ngrok.io:15383/sarfad')
+engine = create_engine(db_url)
 
 # Mapování tříd na databázové tabulky
 metadata = MetaData()
